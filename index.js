@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 const cors = require("cors");
 
 const app = express();
-const port = 3000;
+const port = 3000 || 3001;
 
 app.use(cors());
 app.use(express.json());
@@ -27,7 +27,7 @@ const userRouter = require('./routes/user');
 app.use('/user', userRouter);
 app.use('/', (req, res) => res.send('Welcome'));
 
-const server = app.listen(port || 3001, '0.0.0.0', () =>
+const server = app.listen(port, '0.0.0.0', () =>
   console.log("server running on port:" + port)
 );
 
