@@ -4,7 +4,7 @@ const cors = require("cors");
 const http = require('http');
 
 const app = express();
-const port = 3000 || 3001;
+const PORT = process.env.PORT || 3000;
 
 app.use(express.json());
 app.use(cors());
@@ -30,8 +30,8 @@ app.use('/', (req, res) => res.send('Welcome'));
 
 const server = http.createServer(app);
 
-server.listen(port, () =>
-  console.log("server running on port:" + port)
+server.listen(PORT, () =>
+  console.log("server running on port:" + PORT)
 );
 
 /*************** Socket ***************/
