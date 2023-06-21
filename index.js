@@ -1,0 +1,48 @@
+const express = require("express");
+const mongoose = require("mongoose");
+const cors = require("cors");
+
+const app = express();
+const port = 3000;
+
+app.use(cors());
+app.use(express.json());
+
+/*************** DB Connection ***************/
+const connectDB = () => {
+  mongoose
+    .connect("mongodb+srv://test:artichat@test-cluster.dsn5ceu.mongodb.net/", {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    })
+    .then(() => console.log("Connected to database"))
+    .catch((err) => console.log("Error connecting to database", err.message));
+};
+
+connectDB();
+/*************** DB Connection ***************/
+
+const userRouter = require('./routes/user');
+
+app.use('/user', userRouter);
+
+const server = app.listen(port, () =>
+  console.log("server running on port:" + port)
+);
+
+/*************** Socket ***************/
+const io = require("socket.io")(server, {
+  cors: {
+    origin: "<http://localhost:3000>", // TODO: Heroku endpoint
+  },
+});
+
+io.on("connection", (socket) => {
+  console.log(`⚡: ${socket.id} user just connected!`);
+
+  socket.on("disconnect", () => {
+    socket.disconnect();
+    console.log("🔥: A user disconnected");
+  });
+});
+/*************** Socket ***************/
