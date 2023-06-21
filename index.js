@@ -1,6 +1,7 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
+const http = require('http');
 
 const app = express();
 const port = 3000 || 3001;
@@ -27,7 +28,9 @@ const userRouter = require('./routes/user');
 app.use('/user', userRouter);
 app.use('/', (req, res) => res.send('Welcome'));
 
-const server = app.listen(port, () =>
+const server = http.createServer(app);
+
+server.listen(port, () =>
   console.log("server running on port:" + port)
 );
 
