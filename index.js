@@ -33,7 +33,7 @@ const server = app.listen(port, () =>
 /*************** Socket ***************/
 const io = require("socket.io")(server, {
   cors: {
-    origin: "<http://localhost:3000>", // TODO: Heroku endpoint
+    origin: "<https://artichat-d0cc64c62685.herokuapp.com/>", // TODO: Heroku endpoint
   },
 });
 
