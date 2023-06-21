@@ -30,7 +30,7 @@ app.use('/', (req, res) => res.send('Welcome'));
 
 const server = http.createServer(app);
 
-server.listen(port, () =>
+server.listen(port, '0.0.0.0', () =>
   console.log("server running on port:" + port)
 );
 
