@@ -25,6 +25,7 @@ connectDB();
 const userRouter = require('./routes/user');
 
 app.use('/user', userRouter);
+app.use('/', (req, res) => res.send('Welcome'));
 
 const server = app.listen(port, () =>
   console.log("server running on port:" + port)
