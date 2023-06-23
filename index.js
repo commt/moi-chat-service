@@ -1,17 +1,18 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
+const http = require('http');
 
 const app = express();
-const port = 3000;
+const PORT = process.env.PORT || 3000;
 
-app.use(cors());
 app.use(express.json());
+app.use(cors());
 
 /*************** DB Connection ***************/
 const connectDB = () => {
   mongoose
-    .connect("mongodb+srv://test:artichat@test-cluster.dsn5ceu.mongodb.net/", {
+    .connect("URI", {
       useNewUrlParser: true,
       useUnifiedTopology: true,
     })
@@ -25,15 +26,18 @@ connectDB();
 const userRouter = require('./routes/user');
 
 app.use('/user', userRouter);
+app.use('/', (req, res) => res.send('Welcome'));
 
-const server = app.listen(port, () =>
-  console.log("server running on port:" + port)
+const server = http.createServer(app);
+
+server.listen(PORT, () =>
+  console.log("server running on port:" + PORT)
 );
 
 /*************** Socket ***************/
 const io = require("socket.io")(server, {
   cors: {
-    origin: "<http://localhost:3000>", // TODO: Heroku endpoint
+    origin: "<https://artichat-d0cc64c62685.herokuapp.com/>", // TODO: Heroku endpoint
   },
 });
 
