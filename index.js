@@ -12,7 +12,7 @@ app.use(cors());
 /*************** DB Connection ***************/
 const connectDB = () => {
   mongoose
-    .connect("URI", {
+    .connect("mongodb+srv://test:artichat@test-cluster.dsn5ceu.mongodb.net/", {
       useNewUrlParser: true,
       useUnifiedTopology: true,
     })
