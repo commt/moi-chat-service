@@ -8,7 +8,9 @@ const userSchema = new mongoose.Schema(
       required: true,
     },
     privateKey: String,
-    publicKey: String
+    publicKey: String,
+    avatar: String,
+    online: Boolean,
   },
   { timestamps: true },
 );
