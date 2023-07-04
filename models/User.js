@@ -14,6 +14,7 @@ const userSchema = new mongoose.Schema(
       default: 'https://xsgames.co/randomusers/avatar.php?g=pixel'
     },
     online: Boolean,
+    socketId: String,
   },
   { timestamps: true },
 );
