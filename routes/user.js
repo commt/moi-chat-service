@@ -29,7 +29,7 @@ router.post("/login", async (req, res) => {
     const newUser = await User.create({
         username,
         privateKey,
-        publicKey
+        publicKey,
     });
 
     return res.json(newUser);
