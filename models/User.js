@@ -9,7 +9,10 @@ const userSchema = new mongoose.Schema(
     },
     privateKey: String,
     publicKey: String,
-    avatar: String,
+    avatar: {
+      type: String,
+      default: 'https://xsgames.co/randomusers/avatar.php?g=pixel'
+    },
     online: Boolean,
   },
   { timestamps: true },
