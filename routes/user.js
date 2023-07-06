@@ -26,10 +26,14 @@ router.post("/login", async (req, res) => {
           },
     });
 
+    var r = Math.random();
+    const avatar = 'https://api.multiavatar.com/' + Math.floor(r * (1000 - 1) + 1);
+
     const newUser = await User.create({
         username,
         privateKey,
         publicKey,
+        avatar
     });
 
     return res.json(newUser);
