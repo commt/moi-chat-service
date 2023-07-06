@@ -10,8 +10,8 @@ const userSchema = new mongoose.Schema(
     privateKey: String,
     publicKey: String,
     avatar: {
-      type: String,
-      default: 'https://xsgames.co/randomusers/avatar.php?g=pixel'
+      type: String, 
+      default: 'https://xsgames.co/randomusers/avatar.php?g=pixel' // alternative: https://robohash.org/4513
     },
     online: Boolean,
     socketId: String,
