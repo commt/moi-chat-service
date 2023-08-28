@@ -12,7 +12,13 @@ module.exports.updateUserOnline = async ({userId, socketId}) => {
 
 module.exports.getActiveUserSocketIds = async(userIds) => {
     try {
-        const socketIds = await UserModel.find({_id: {$in: userIds}});
+        const socketIds = await UserModel
+            .find({
+                _id: {$in: userIds}, 
+                online: true, 
+                socketId: {$exists: true}
+            })
+            .select('socketId');
         return socketIds;
     } catch (error) {}
 };
