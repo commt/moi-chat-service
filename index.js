@@ -2,6 +2,7 @@ const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
 const http = require("http");
+const types = require("./utils/EmitTypes");
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -32,7 +33,7 @@ const {
 const { checkIfRoomExists, createRoom } = require("./database/Room.Repository");
 
 app.use("/user", userRouter);
-app.use("/", (req, res) => res.send("Welcome"));
+app.use("/", (req, res) => res.send('Welcome!'));
 
 const server = http.createServer(app);
 
@@ -46,7 +47,7 @@ const io = require("socket.io")(server, {
 });
 
 io.on("connection", async (socket) => {
-  console.log(`⚡: ${socket.id} user just connected!`);
+  console.log(`🚀: ${socket.id} user just connected!`);
 
   const userId = socket.handshake.query.userId;
   if (userId) {
@@ -54,17 +55,19 @@ io.on("connection", async (socket) => {
     await updateUserOnline({ userId, socketId: socket.id });
 
     // Notify other users that the user is active
-    socket.broadcast.emit("userActive", userId);
+    socket.broadcast.emit(types.USER_ACTIVE, userId);
   }
 
   // Join socket
-  socket.on("joinRoom", (roomId, cb) => {
-    socket.join(roomId);
-    cb(roomId);
+  socket.on(types.JOIN_ROOMS, (roomIds, cb) => {
+    // filter room that socket not join 
+    roomIds = roomIds.filter(roomId => !socket.rooms.has(roomId))
+    socket.join(roomIds);
+    cb(roomIds);
   });
 
   // Send new message
-  socket.on("sendMessage", async (data, cb) => {
+  socket.on(types.SEND_MESSAGE, async (data, cb) => {
     let newRoom = undefined;
     const existRoom = await checkIfRoomExists(data.roomId);
 
@@ -86,7 +89,7 @@ io.on("connection", async (socket) => {
       if (socketIds) {
         socketIds.forEach((socketId) => {
           // Notify participants for the new room
-          io.to(socketId).emit("joinNewRoom", {
+          io.to(socketId).emit(types.JOIN_NEW_ROOM, {
             roomId: newRoom.roomId,
           });
           // receive socket join
@@ -99,7 +102,7 @@ io.on("connection", async (socket) => {
     const roomId = existRoom ? existRoom.roomId : newRoom.roomId;
 
     // send the received message to the sockets in the room
-    socket.broadcast.to(roomId).emit("handleNewMessage", {
+    socket.broadcast.to(roomId).emit(types.RECEIVE_MESSAGE, {
       message: data.message,
       roomId: roomId,
     });
@@ -111,20 +114,24 @@ io.on("connection", async (socket) => {
   });
 
   // For media feature
-  socket.on("upload", async (data, callback) => {
+  socket.on(types.UPLOAD, async (data, callback) => {
     // save the content to the disk
     fs.writeFile(`./public/upload/${data.name}`, data.file, (err) => {
       callback({ message: err ? "failure" : "success" });
     });
   });
 
-  socket.on("disconnect", async () => {
+  socket.on(types.SEND_TYPING_STATUS, () => {
+    socket.emit(types.RECEIVE_TYPING_STATUS);
+  });
+
+  socket.on(types.DISCONNECT, async () => {
     socket.disconnect();
 
     const user = await disconnectUser(socket.id);
 
     if (user) {
-      socket.broadcast.emit("userDisconnected", user._id); // notify other users that the particular user disconnected
+      socket.broadcast.emit(types.USER_DISCONNECTED, user._id); // notify other users that the particular user disconnected
     }
 
     console.log("🔥: A user disconnected: " + socket.id);
