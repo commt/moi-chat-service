@@ -121,8 +121,8 @@ io.on("connection", async (socket) => {
     });
   });
 
-  socket.on(types.SEND_TYPING_STATUS, () => {
-    socket.emit(types.RECEIVE_TYPING_STATUS);
+  socket.on(types.SEND_TYPING_STATUS, (data) => {
+    socket.to(data.roomId).emit(types.RECEIVE_TYPING_STATUS, data);
   });
 
   socket.on(types.DISCONNECT, async () => {
