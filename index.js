@@ -68,38 +68,40 @@ io.on("connection", async (socket) => {
 
   // Send new message
   socket.on(types.SEND_MESSAGE, async (data, cb) => {
-    let newRoom = undefined;
-    const existRoom = await checkIfRoomExists(data.roomId);
+    // let newRoom = undefined;
+    // const existRoom = await checkIfRoomExists(data.roomId);
 
-    if (!existRoom) {
-      /**
-       * Create new room with the given data
-       * @param {
-       *  participants: Array of participants
-       *  communityName: Name of the Community if it's a community
-       * } data.roomData
-       */
-      newRoom = await createRoom(data.roomData);
+    // if (!existRoom) {
+    //   /**
+    //    * Create new room with the given data
+    //    * @param {
+    //    *  participants: Array of participants
+    //    *  communityName: Name of the Community if it's a community
+    //    * } data.roomData
+    //    */
+    //   newRoom = await createRoom(data.roomData);
 
-      // Get active participants' socketIds except the user who is sending the message to notify them
-      const socketIds = await getActiveUserSocketIds(
-        data.roomData.participants.filter((id) => id !== userId)
-      );
+    //   // Get active participants' socketIds except the user who is sending the message to notify them
+    //   const socketIds = await getActiveUserSocketIds(
+    //     data.roomData.participants.filter((id) => id !== userId)
+    //   );
 
-      if (socketIds) {
-        socketIds.forEach((socketId) => {
-          // Notify participants for the new room
-          io.to(socketId).emit(types.JOIN_NEW_ROOM, {
-            roomId: newRoom.roomId,
-          });
-          // receive socket join
-          io.sockets.sockets.get(socketId).join(newRoom.roomId);
-        });
-      }
-      socket.join(newRoom.roomId);
-    }
+    //   if (socketIds) {
+    //     socketIds.forEach((socketId) => {
+    //       // Notify participants for the new room
+    //       io.to(socketId).emit(types.JOIN_NEW_ROOM, {
+    //         roomId: newRoom.roomId,
+    //       });
+    //       // receive socket join
+    //       io.sockets.sockets.get(socketId).join(newRoom.roomId);
+    //     });
+    //   }
+    //   socket.join(newRoom.roomId);
+    // }
 
-    const roomId = existRoom ? existRoom.roomId : newRoom.roomId;
+    // const roomId = existRoom ? existRoom.roomId : newRoom.roomId;
+
+    const roomId = data.roomId;
 
     // send the received message to the sockets in the room
     socket.broadcast.to(roomId).emit(types.RECEIVE_MESSAGE, {
@@ -108,8 +110,8 @@ io.on("connection", async (socket) => {
     });
     cb({
       status: "success",
-      isNewRoom: !!newRoom ?? false, // If there is a new room then true otherwise false
-      roomId,
+      // isNewRoom: !!newRoom ?? false, // If there is a new room then true otherwise false
+      // roomId,
     });
   });
 
