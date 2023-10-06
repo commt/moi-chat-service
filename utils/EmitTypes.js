@@ -13,4 +13,6 @@ module.exports = {
   USER_ACTIVE: "user_active",
   RECEIVE_TYPING_STATUS: "receive_typing_status",
   SEND_TYPING_STATUS: "send_typing_status",
+  SEND_READ_TOKEN: "send_read_token",
+  RECEIVE_READ_TOKEN: "receive_read_token",
 };
