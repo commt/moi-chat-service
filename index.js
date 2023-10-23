@@ -49,13 +49,13 @@ const io = require("socket.io")(server, {
 io.on("connection", async (socket) => {
   console.log(`🚀: ${socket.id} user just connected!`);
 
-  const userId = socket.handshake.query.userId;
-  if (userId) {
+  const chatAuthId = socket.handshake.query.chatAuthId;
+  if (chatAuthId) {
     // Update user status in db
-    await updateUserOnline({ userId, socketId: socket.id });
+    await updateUserOnline({ chatAuthId, socketId: socket.id });
 
     // Notify other users that the user is active
-    socket.broadcast.emit(types.USER_ACTIVE, userId);
+    socket.broadcast.emit(types.USER_ACTIVE, chatAuthId);
   }
 
   // Join socket
@@ -133,7 +133,7 @@ io.on("connection", async (socket) => {
     const user = await disconnectUser(socket.id);
 
     if (user) {
-      socket.broadcast.emit(types.USER_DISCONNECTED, user._id); // notify other users that the particular user disconnected
+      socket.broadcast.emit(types.USER_DISCONNECTED, user.chatAuthId); // notify other users that the particular user disconnected
     }
 
     console.log("🔥: A user disconnected: " + socket.id);
