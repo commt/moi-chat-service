@@ -1,7 +1,7 @@
 const UserModel = require('../models/User');
 
-module.exports.updateUserOnline = async ({userId, socketId}) => {
-    const user = await UserModel.findById(userId);
+module.exports.updateUserOnline = async ({chatAuthId, socketId}) => {
+    const user = await UserModel.findOne({chatAuthId});
 
     if (user) {
         user.online = true;
