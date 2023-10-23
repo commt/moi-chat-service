@@ -127,6 +127,10 @@ io.on("connection", async (socket) => {
     socket.to(data.roomId).emit(types.RECEIVE_TYPING_STATUS, data);
   });
 
+  socket.on(types.SEND_READ_TOKEN, (data) => {
+    io.to(data.roomId).emit(types.RECEIVE_READ_TOKEN, data);
+  });
+
   socket.on(types.DISCONNECT, async () => {
     socket.disconnect();
 
