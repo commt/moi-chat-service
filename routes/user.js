@@ -8,7 +8,7 @@ router.post("/login", async (req, res) => {
   const { username } = req.body;
 
   try {
-    const user = await User.findOne({ username });
+    const user = await User.findOne({ username: username.toLowerCase().trim() });
 
     if (user) {
       return res.json(user);
@@ -33,8 +33,10 @@ router.post("/login", async (req, res) => {
         username,
         privateKey,
         publicKey,
+        chatAuthId: Math.random().toString(16).slice(4), // TODO: Will be update with NodeJS SDK
         avatar
     });
+    // TODO: Create user instance on Commt with NodeJS SDK
 
     return res.json(newUser);
   } catch (err) {
