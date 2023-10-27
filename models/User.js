@@ -13,8 +13,7 @@ const userSchema = new mongoose.Schema(
       type: String, 
       default: 'https://xsgames.co/randomusers/avatar.php?g=pixel' // alternative: https://robohash.org/4513
     },
-    online: Boolean,
-    socketId: String,
+    chatAuthId: String,
   },
   { timestamps: true },
 );
