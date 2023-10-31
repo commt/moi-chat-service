@@ -5,10 +5,10 @@ const User = require("../models/User");
 const router = express.Router();
 
 router.post("/login", async (req, res) => {
-  const { username } = req.body;
+  const username = req.body.username.trim();
 
   try {
-    const user = await User.findOne({ username: username.toLowerCase().trim() });
+    const user = await User.findOne({ username });
 
     if (user) {
       return res.json(user);
