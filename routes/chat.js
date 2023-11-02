@@ -15,7 +15,15 @@ router.get('/', async (req, res) => {
 
 router.post('/save-message', async (req, res) => {
     try {
-        await MessageModel.create(req.body);
+        const {roomId, message} = req.body;
+
+        await MessageModel.create({
+            roomId,
+            type: message.type,
+            senderId: message.user._id,
+            createdAt: message.createdAt,
+            message: message.text,
+        });
     } catch (err) {
         res.status(500).send(err.message);
     }
