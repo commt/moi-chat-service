@@ -24,6 +24,8 @@ router.post('/save-message', async (req, res) => {
             createdAt: message.createdAt,
             message: message.text,
         });
+        
+        res.status(200);
     } catch (err) {
         res.status(500).send(err.message);
     }
