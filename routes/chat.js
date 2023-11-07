@@ -17,9 +17,7 @@ router.post('/save-message', async (req, res) => {
     try {
         const {roomId, message} = req.body;
 
-        console.log('--- body--->>', req.body);
-
-        const newMessage = await MessageModel.create({
+        await MessageModel.create({
             roomId,
             type: message.type,
             senderId: message.user._id,
@@ -27,8 +25,6 @@ router.post('/save-message', async (req, res) => {
             message: message.text,
         });
 
-        console.log('--- newMessage--->>', newMessage);
-        
         res.status(200).send();
     } catch (err) {
         res.status(500).send(err.message);
