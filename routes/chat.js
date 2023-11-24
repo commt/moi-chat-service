@@ -20,7 +20,7 @@ router.post('/save-message', async (req, res) => {
         await MessageModel.create({
             roomId,
             type: message.type,
-            senderId: message.user._id,
+            senderId: message.senderId,
             createdAt: message.createdAt,
             message: message.text,
         });
