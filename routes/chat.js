@@ -31,7 +31,7 @@ router.get('/', async (req, res) => {
             const skip = offset * limit;
 
             const totalRecords = await MessageModel.countDocuments({roomId});
-            messages = await MessageModel.find({roomId}).skip(skip).limit(limit);
+            messages = await MessageModel.find({roomId}).sort({createdAt: -1}).skip(skip).limit(limit);
 
             hasNext = totalRecords - skip > limit; // If there is no more records with this skip and limit properties, set hasNext to false else set hasNext to true
         } else {
