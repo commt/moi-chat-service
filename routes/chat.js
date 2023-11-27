@@ -23,13 +23,10 @@ router.post('/save-message', async (req, res) => {
 
 router.get('/', async (req, res) => {
     try {
-        const {roomId, offset, limit} = req.query;
+        const {roomId, skip, limit} = req.query;
         let messages = [], hasNext;
 
-        if (roomId && offset && limit) {
-            // Offset field represents "page" and help us to skip certain amount of records
-            const skip = offset * limit;
-
+        if (roomId && skip && limit) {
             const totalRecords = await MessageModel.countDocuments({roomId});
             messages = await MessageModel.find({roomId}).sort({createdAt: -1}).skip(skip).limit(limit);
 
