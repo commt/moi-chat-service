@@ -3,6 +3,10 @@ const RoomModel = require("../models/Room");
 
 const router = express.Router();
 
+router.get('/create-room', (req, res) => {
+    res.status(200).json(req.query);
+});
+
 router.get('/', async (req, res) => {
     try {
         const rooms = await RoomModel.find();

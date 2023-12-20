@@ -3,9 +3,16 @@ const MessageModel = require("../models/Message");
 
 const router = express.Router();
 
+router.get('/save-message', (req, res) => {
+    res.status(200).json(req.query);
+});
+
 router.post('/save-message', async (req, res) => {
     try {
-        const {roomId, message} = req.body;
+        const { message: cipher, iv } = req.body;
+        const result = JSON.parse(commt.decrypt({ cipher, iv, key: '' }));
+
+        const {roomId, message} = result;
 
         await MessageModel.create({
             roomId,
