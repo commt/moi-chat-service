@@ -17,7 +17,7 @@ router.get('/', async (req, res) => {
     }
 });
 
-router.post('/', async (req, res) => {
+router.post('/create-room', async (req, res) => {
     try {
         const { participants, communityAvatar, communityName } = req.body;
 
