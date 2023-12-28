@@ -11,8 +11,8 @@ app.use(cors());
 
 Commt.init({
   apiKey: "i3sszpycc3-mrtezr3isuf-shyx1f2v2",
-  secret: "xpbot4gwmwizcjvsd4emkjgo",
-  projectId: "6585d7bdd44def01545cf888",
+  secret: "m1z5b7d61nvuv9b2479tas70",
+  projectId: "658ab033f93a7e7fac12be86",
   APIUrl: "https://staging-service.commt.co"
 });
 
