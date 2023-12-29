@@ -10,7 +10,11 @@ router.get('/save-message', (req, res) => {
 router.post('/save-message', async (req, res) => {
     try {
         const { message: cipher, iv } = req.body;
+        console.log('====req.body===>>', req.body);
+
         const result = JSON.parse(commt.decrypt({ cipher, iv }));
+
+        console.log('====result===>>', result);
 
         const {roomId, message} = result;
 
