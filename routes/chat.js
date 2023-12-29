@@ -14,6 +14,8 @@ router.post('/save-message', async (req, res) => {
 
         const {roomId, message} = result;
 
+        console.log('=======>>', {roomId, message});
+
         await MessageModel.create({
             roomId,
             type: message.type,
