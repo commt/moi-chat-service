@@ -6,8 +6,8 @@ You will see some function calls from Commt NodeSDK and Commt initialization.
 Furthermore you can see how to integrate and use Webhook routes in this example app.
 
 ## Current Routes
-| Route        | Method | Description | Is Webhook |
-|---------------|:------:|-----|:-----:|-----------:|
+| Route       | Method | Description | Is Webhook |
+|-------------|--------|:-----------:|-----------:|
 | /user/login |  POST | User login route |        NO |
 | /user/      |  GET |  Get all users route |        NO |
 | /room/create-room |  POST |  Create room webhook route |        YES |
