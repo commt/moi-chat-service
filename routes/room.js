@@ -36,9 +36,10 @@ router.post('/create-room', async (req, res) => {
 
 // Get all rooms
 router.get('/', async (req, res) => {
+    const { userId } = req.query;
     try {
-        const rooms = await RoomModel.find();
-  
+        const rooms = await RoomModel.find({ participants: {$in: [userId]} });
+
         return res.json(rooms);
     } catch (err) {
         res.status(500).send(err.message);
